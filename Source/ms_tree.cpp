@@ -14,18 +14,18 @@ AdjacencyMatrix MST::KruskalAlgorithm(AdjacencyMatrix& matrix)
     {
         for (int j = i; j < vertexAmount; j++)
         {
-            int* data = new int[2];
-            data[0] = i;
-            data[1] = j;
             int weight = matrix.GetWeight(i, j);
             if(weight != matrix.WEIGHT_INFINITY)
             {
+                int* data = new int[2];
+                data[0] = i;
+                data[1] = j;
                 heap.Push(weight, data);
             }
         }
     }
 
-    for (int i = 0; i < vertexAmount - 1; i++)
+    for (int i = 0; (i < vertexAmount - 1) && (heap.GetSize() > 0); )
     {
         int* data = heap.PopHead()->data;
         
@@ -35,9 +35,8 @@ AdjacencyMatrix MST::KruskalAlgorithm(AdjacencyMatrix& matrix)
         if(disjointSets.Union(v1, v2))
         {
             int weight = matrix.GetWeight(v1, v2);
-            result.SetConnection(v1, v2, weight);
-            int weight2 = matrix.GetWeight(v2, v1);
-            result.SetConnection(v2, v1, weight2);
+            result.SetConnection(v1, v2, weight, true);
+            i++;
         }
     }
     
@@ -52,6 +51,7 @@ AdjacencyList MST::KruskalAlgorithm(AdjacencyList& list)
 
     DisjointSets disjointSets(vertexAmount);
     BinaryHeap heap(vertexAmount * vertexAmount);
+
     for (int i = 0; i < vertexAmount; i++)
     {
         Connection* current = list.GetHeadOfVertexConnections(i);
@@ -66,7 +66,7 @@ AdjacencyList MST::KruskalAlgorithm(AdjacencyList& list)
         }
     }
 
-    for (int i = 0; i < 2*vertexAmount - 2; i++)
+    for (int i = 0; (i < 2*vertexAmount - 2) && (heap.GetSize() > 0); )
     {
         int* data = heap.PopHead()->data;
         int v1 = data[0];
@@ -75,7 +75,8 @@ AdjacencyList MST::KruskalAlgorithm(AdjacencyList& list)
         if(disjointSets.Union(v1, v2))
         {
             int weight = list.FindConnection(v1, v2)->weight;
-            result.SetConnection(v1, v2, weight);
+            result.SetConnection(v1, v2, weight, false);
+            i++;
         }
     }
     return result;

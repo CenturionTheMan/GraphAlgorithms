@@ -2,50 +2,66 @@
 DisjointSets::DisjointSets(int size)
 {
     DisjointSets::size = size;
-    DisjointSets::arr = new int[size];
+    DisjointSets::sets = new SetElement*[size];
     for (int i = 0; i < size; i++)
     {
-        arr[i] = i;
+        sets[i] = new SetElement();
     }
 }
 
 DisjointSets::~DisjointSets()
 {
-    delete[] DisjointSets::arr;
+    for (int i = 0; i < DisjointSets::size; i++)
+    {
+        delete sets[i];
+    }
+    delete[] sets;
 }
 
-int DisjointSets::Find(int index)
+SetElement* DisjointSets::Find(int index)
 {
-    if(index >= DisjointSets::size)
+    if(index >= DisjointSets::size || index < 0)
     {
-        return -1;
+        return NULL;
     }
 
-    return DisjointSets::arr[index];
+    SetElement* current = DisjointSets::sets[index];
+    while (current->parent != current)
+    {
+        current = current->parent;
+    }
+    
+    DisjointSets::sets[index]->parent = current;
+    return current;
 }
 
 bool DisjointSets::Union(int elem1, int elem2)
 {
-    int repElem1 = DisjointSets::Find(elem1);
-    int repElem2 = DisjointSets::Find(elem2);
+    SetElement* repElem1 = DisjointSets::Find(elem1);
+    SetElement* repElem2 = DisjointSets::Find(elem2);
 
-    if(repElem1 == -1 || repElem2 == -1)
+    if(repElem1 == NULL || repElem2 == NULL)
     {
         return false;
     }
 
-    if(repElem1 != repElem2)
+    if(repElem1 == repElem2)
     {
-        for (int i = 0; i < DisjointSets::size; i++)
-        {
-            if(DisjointSets::Find(i) == repElem2)
-            {
-                DisjointSets::arr[i] = repElem1;
-            }
-        }
-        return true;
+        return false;
     }
-    return false;
+
+    if(repElem1->rank < repElem2->rank)
+    {
+        repElem1->parent = repElem2;
+        repElem2->rank++;
+    }
+    else
+    {
+        repElem2->parent = repElem1;
+        repElem1->rank++;
+    }
+
+    return true;
 }
 
 

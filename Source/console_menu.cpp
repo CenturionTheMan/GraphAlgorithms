@@ -77,7 +77,7 @@ MenuConsole::MainMenuOptions MenuConsole::DisplayMainMenu()
     do
     {
         std::cin >> inputStr;
-        if (MenuConsole::TryParseToInt(inputStr, input) && input >= 0 && input <= 6)
+        if (MenuConsole::TryParseToInt(inputStr, input) && input >= 0 && input <= 7)
             break;
         else
             std::cout<<WRONG_INPUT;

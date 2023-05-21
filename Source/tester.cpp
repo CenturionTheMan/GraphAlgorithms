@@ -3,16 +3,17 @@
 
 void Tester::WriteLineToFile(std::string pathSuffix, int vertexAmount, float density, double time)
 {   
-    std::stringstream stream;
     std::string* values = new std::string[3];
     values[0] = std::to_string(vertexAmount);
 
-    stream << std::setw(0) << std::setfill('.') << density * 100;
-    values[1] = stream.str();
-    stream.clear();
+    std::stringstream densityStream;
+    densityStream << std::fixed << std::setprecision(0) << density * 100;
+    values[1] = densityStream.str();
     
-    stream << std::setw(2) << std::setfill('.') << time;
-    values[2] = stream.str();
+    
+    std::stringstream timeStream;
+    timeStream << std::fixed << std::setprecision(2) << time;
+    values[2] = timeStream.str();
 
     WriteDataToCsv(Tester::OutputDirectory + pathSuffix, values, 3);
     
