@@ -29,12 +29,6 @@ namespace MenuConsole
     /// @param val result
     /// @return true if success, false otherwise
     bool TryParseToInt(std::string str, int& val);
-
-    /// @brief Function will try to parse given string to bool
-    /// @param str string to parse
-    /// @param val result
-    /// @return true if success, false otherwise
-    bool TryParseToBool(std::string str, bool& val);
     
     /// @brief Function will display menu
     /// @return user input
@@ -42,7 +36,9 @@ namespace MenuConsole
 
     /// @brief Function will perform action choosen by user
     /// @param input user input
-    /// @param matrix graph as matrix to perform action on
-    /// @param list graph as list to perform action on
-    void HandleInput(MainMenuOptions input, AdjacencyMatrix& matrix, AdjacencyList& list);
+    /// @param matrixNotDirect not directed graph as matrix to perform action on
+    /// @param matrixDirect directed graph as matrix to perform action on
+    /// @param listNotDirect not directed graph as list to perform action on
+    /// @param listDirect directed graph as list to perform action on
+    void HandleInput(MainMenuOptions input, AdjacencyMatrix& matrixNotDirect, AdjacencyMatrix& matrixDirect, AdjacencyList& listNotDirect, AdjacencyList& listDirect);
 }

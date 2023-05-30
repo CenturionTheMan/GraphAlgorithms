@@ -60,7 +60,7 @@ public:
     /// @param fromVertex 
     /// @param toVertex 
     /// @exception function will raise exception if given vertexes are out of bands
-    /// @return weight of given eg=dge
+    /// @return weight of given edge
     int GetWeight(int fromVertex, int toVertex);
 
     /// @brief Function will set begin vertex and end vertex (used for algorithms)

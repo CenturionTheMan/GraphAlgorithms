@@ -57,7 +57,7 @@
     {\raggedright
         \large
         \textbf{Autor sprawozdania:} Michał Dziedziak,  263901\\
-        \textbf{Nazwisko i Imię prowadzącego kurs:} Mgr. inż. Antoni Sterna\\
+        \textbf{Imię i Nazwisko prowadzącego kurs:} Mgr. inż. Antoni Sterna\\
         \textbf{Dzień i godzina zajęć:} Wtorek, 15:15 - 16:55 TN
     }
 \end{titlepage}
@@ -74,8 +74,8 @@
 \section{Wstęp}
     \subsection{Zarys projektu}
     W ramach projektu w języku C++ zaimplementowane zostały wybrane algorytmy znajdowania najmniejszego
-    drzewa rozpinającego i najkrótszej ścieżki w grafie. Do reprezentacji grafów użyta została macierz sąsiedztw i lista sąsiedztw. 
-    Poniższe sprawozdanie bada zależność czasu od ilości wierzchołków i gęstości grafu podczas wykonywania poszczególnych algorytmów.
+    drzewa rozpinającego i najkrótszej ścieżki w grafie. Do reprezentacji grafów użyta została macierz sąsiedztwa i lista sąsiedztwa. 
+    Poniższe sprawozdanie bada zależność czasu od liczby wierzchołków i gęstości grafu podczas wykonywania poszczególnych algorytmów.
 
     \subsection{Algorytmy}
         \subsubsection{Zaimplemtntowane algorytmy}
@@ -94,29 +94,15 @@
 
     \subsubsection{Teoretyczne złożoności obliczeniowe}
     W tej sekcji przedstawię teoretyczne złożoności obliczeniowe operacji na grafach, celem późniejszego porównania ich z wynikami testów.
-    % \begin{center}    
-    %     \begin{tabular}[H]{| c | c | c | c | c |}
-    %         \hline
-    %         Algorytm & Reprezentacja grafu & Pesymistyczna złożoność & Średnia złożoność &  Optymistyczna złożoność\\ \hline \hline
-    %         Prima & Macierz sąsiedztwa & $O(V^2 logV)$ & $O((V + E)logV)$ & $O(ElogV)$ \\ \hline
-    %         Prima & Lista sąsiedztwa & $O((V+E)logV)$ & $O((V+E)logV)$ & $O((V+E)logV)$ \\ \hline
-    %         Kruskal & Macierz sąsiedztwa & $O(E log E)$ & $O(E log E)$ & $O(E log E)$ \\ \hline
-    %         Kruskal & Lista sąsiedztwa & $O(E log E)$ & $O(E log E)$ & $O(E log E)$ \\ \hline
-    %         Dijkstra & Macierz sąsiedztwa & $O(V^2 log V)$ & $O(V^2 log V)$ & $O(V^2 log V)$ \\ \hline
-    %         Dijkstra & Lista sąsiedztwa & $O((E+V)logV)$ & $O((E+V)logV)$ & $O(E+VlogV)$ \\ \hline
-    %         Bellman-Ford & Macierz sąsiedztwa & $O(V^2)$ & $O(V^2)$ & $O(V^2)$ \\ \hline
-    %         Bellman-Ford & Lista sąsiedztwa & $O(V^2)$ & $O(V^2)$ & $O(V^2)$ \\ \hline
-    %     \end{tabular}
-    % \end{center}
-
+    Złożoności algorytmów różnią się od w zależności od implementacji, poniżej przedstawię oczekiwane złożoności dla wykonanych algorytmów.
     \begin{center}    
-        \begin{tabular}[H]{| c | c | c | c |}
+        \begin{tabular}[H]{| c | c |}
             \hline
-            Algorytm & Pesymistyczna złożoność & Średnia złożoność &  Optymistyczna złożoność\\ \hline \hline
-            Prima & $O((V+E)logV)$ & $O((V+E)logV)$ & $O((V+E)logV)$ \\ \hline
-            Kruskal & $O(E log E)$ & $O(E log E)$ & $O(E log E)$ \\ \hline
-            Dijkstra & $O((E+V)logV)$ & $O((E+V)logV)$ & $O(E+VlogV)$ \\ \hline
-            Bellman-Ford & $O(V)$ & $O(V^2)$ & $O(V^2)$ \\ \hline
+            Algorytm    & Złożoność obliczeniowa wybranej implementacji \\ \hline \hline
+            Prima       & $O(ElogV)$    \\ \hline
+            Kruskal     & $O(ElogE)$    \\ \hline
+            Dijkstra    & $O(ElogV)$    \\ \hline
+            Bellman-Ford& $O(V*E)$    \\ \hline
         \end{tabular}
     \end{center}
 
@@ -127,7 +113,7 @@
             braku krawędzi pomiędzy wierzchołkami lub nieskończonego kosztu dojścia do danego wierzchołka.
             \item Wagi krawędzi są liczbami całkowitymi.
             \item Testy wykonywane są dla grafów posiadających od 50 do 500 wierzchołków (z krokiem równym 50). Dla każdej liczby wierzchołków
-            wykonywane są cztery testy dla gęstości grafu równej kolejno 25\%, 50\%, 75\%, 99\%. Test dla każdej kombinacji ilości wierzchołków
+            wykonywane są cztery testy dla gęstości grafu równej kolejno 25\%, 50\%, 75\%, 99\%. Test dla każdej kombinacji liczby wierzchołków
             i gęstości grafu wykonywany jest sto razy i ostateczny czas jest średnią tych czasów.
         \end{itemize}
 
@@ -154,7 +140,7 @@
                 \begin{tabular}{|c|c|c|}%
                     \hline
                     \bfseries Liczba wierzchołków & \bfseries Gęstość & \bfseries Czas $[ms]$
-                    \csvreader[head to column names]{Tests/Matrix_Prima.csv}{}% use head of csv as column names
+                    \csvreader[no head]{Tests/Matrix_Prima.csv}{}% use head of csv as column names
                     {\\\hline\csvcoli&\csvcolii&\csvcoliii}\\
                     \hline
                 \end{tabular}
@@ -167,7 +153,7 @@
                 \begin{tabular}{|c|c|c|}%
                     \hline
                     \bfseries Liczba wierzchołków & \bfseries Gęstość & \bfseries Czas $[ms]$
-                    \csvreader[head to column names]{Tests/List_Prima.csv}{}% use head of csv as column names
+                    \csvreader[no head]{Tests/List_Prima.csv}{}% use head of csv as column names
                     {\\\hline\csvcoli&\csvcolii&\csvcoliii}\\
                     \hline
                 \end{tabular}
@@ -180,7 +166,7 @@
                 \begin{tabular}{|c|c|c|}%
                     \hline
                     \bfseries Liczba wierzchołków & \bfseries Gęstość & \bfseries Czas $[ms]$
-                    \csvreader[head to column names]{Tests/Matrix_Kruskal.csv}{}% use head of csv as column names
+                    \csvreader[no head]{Tests/Matrix_Kruskal.csv}{}% use head of csv as column names
                     {\\\hline\csvcoli&\csvcolii&\csvcoliii}\\
                     \hline
                 \end{tabular}
@@ -193,7 +179,7 @@
                 \begin{tabular}{|c|c|c|}%
                     \hline
                     \bfseries Liczba wierzchołków & \bfseries Gęstość & \bfseries Czas $[ms]$ 
-                    \csvreader[head to column names]{Tests/List_Kruskal.csv}{} % use head of csv as column names
+                    \csvreader[no head]{Tests/List_Kruskal.csv}{} % use head of csv as column names
                     {\\\hline\csvcoli&\csvcolii&\csvcoliii}\\
                     \hline
                 \end{tabular}
@@ -208,7 +194,7 @@
             \begin{tabular}{|c|c|c|}%
                 \hline
                 \bfseries Liczba wierzchołków & \bfseries Gęstość & \bfseries Czas $[ms]$
-                \csvreader[head to column names]{Tests/Matrix_Dijkstra.csv}{}% use head of csv as column names
+                \csvreader[no head]{Tests/Matrix_Dijkstra.csv}{}% use head of csv as column names
                 {\\\hline\csvcoli&\csvcolii&\csvcoliii}\\
                 \hline
             \end{tabular}
@@ -221,7 +207,7 @@
             \begin{tabular}{|c|c|c|}%
                 \hline
                 \bfseries Liczba wierzchołków & \bfseries Gęstość & \bfseries Czas $[ms]$
-                \csvreader[head to column names]{Tests/List_Dijkstra.csv}{}% use head of csv as column names
+                \csvreader[no head]{Tests/List_Dijkstra.csv}{}% use head of csv as column names
                 {\\\hline\csvcoli&\csvcolii&\csvcoliii}\\
                 \hline
             \end{tabular}
@@ -234,7 +220,7 @@
             \begin{tabular}{|c|c|c|}%
                 \hline
                 \bfseries Liczba wierzchołków & \bfseries Gęstość & \bfseries Czas $[ms]$
-                \csvreader[head to column names]{Tests/Matrix_BellmanFord.csv}{}% use head of csv as column names
+                \csvreader[no head]{Tests/Matrix_BellmanFord.csv}{}% use head of csv as column names
                 {\\\hline\csvcoli&\csvcolii&\csvcoliii}\\
                 \hline
             \end{tabular}
@@ -247,7 +233,7 @@
             \begin{tabular}{|c|c|c|}%
                 \hline
                 \bfseries Liczba wierzchołków & \bfseries Gęstość & \bfseries Czas $[ms]$
-                \csvreader[head to column names]{Tests/List_BellmanFord.csv}{}% use head of csv as column names
+                \csvreader[no head]{Tests/List_BellmanFord.csv}{}% use head of csv as column names
                 {\\\hline\csvcoli&\csvcolii&\csvcoliii}\\
                 \hline
             \end{tabular}
@@ -261,37 +247,37 @@
             \begin{figure}[H]
                 \centering
                 \includegraphics[scale = 0.85]{Wykresy/mstMatrix.png}
-                \caption{Wykres czasu od ilości wierzchołków dla algorytmów wyznaczania minimalnego drzewa rozpinającego i macierzy sąsiedztwa}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmów wyznaczania minimalnego drzewa rozpinającego i macierzy sąsiedztwa}
             \end{figure}
 
             \begin{figure}[H]
                 \centering
                 \includegraphics[scale = 0.85]{Wykresy/mstList.png}
-                \caption{Wykres czasu od ilości wierzchołków dla algorytmów wyznaczania minimalnego drzewa rozpinającego i listy sąsiedztwa}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmów wyznaczania minimalnego drzewa rozpinającego i listy sąsiedztwa}
             \end{figure}
 
             \begin{figure}[H]
                 \centering
                 \includegraphics[scale = 0.85]{Wykresy/mst25.png}
-                \caption{Wykres czasu od ilości wierzchołków dla algorytmów wyznaczania minimalnego drzewa rozpinającego i gęstości równej 25\%}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmów wyznaczania minimalnego drzewa rozpinającego i gęstości równej 25\%}
             \end{figure}
 
             \begin{figure}[H]
                 \centering
                 \includegraphics[scale = 0.85]{Wykresy/mst50.png}
-                \caption{Wykres czasu od ilości wierzchołków dla algorytmów wyznaczania minimalnego drzewa rozpinającego i gęstości równej 50\%}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmów wyznaczania minimalnego drzewa rozpinającego i gęstości równej 50\%}
             \end{figure}
 
             \begin{figure}[H]
                 \centering
                 \includegraphics[scale = 0.85]{Wykresy/mst75.png}
-                \caption{Wykres czasu od ilości wierzchołków dla algorytmów wyznaczania minimalnego drzewa rozpinającego i gęstości równej 75\%}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmów wyznaczania minimalnego drzewa rozpinającego i gęstości równej 75\%}
             \end{figure}
 
             \begin{figure}[H]
                 \centering
                 \includegraphics[scale = 0.85]{Wykresy/mst99.png}
-                \caption{Wykres czasu od ilości wierzchołków dla algorytmów wyznaczania minimalnego drzewa rozpinającego i gęstości równej 99\%}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmów wyznaczania minimalnego drzewa rozpinającego i gęstości równej 99\%}
             \end{figure}
 
         \subsection{Algorytmy znajdowania najkrótszej ścieżki w grafie}
@@ -299,37 +285,49 @@
             \begin{figure}[H]
                 \centering
                 \includegraphics[scale = 0.85]{Wykresy/gspMatrix.png}
-                \caption{Wykres czasu od ilości wierzchołków dla algorytmów wyznaczania najkrótszej ścieżki i macierzy sąsiedztwa}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmów wyznaczania najkrótszej ścieżki i macierzy sąsiedztwa}
             \end{figure}
 
             \begin{figure}[H]
                 \centering
                 \includegraphics[scale = 0.85]{Wykresy/gspList.png}
-                \caption{Wykres czasu od ilości wierzchołków dla algorytmów wyznaczania najkrótszej ścieżki i listy sąsiedztwa}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmów wyznaczania najkrótszej ścieżki i listy sąsiedztwa}
+            \end{figure}
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[scale = 0.85]{Wykresy/dijkstraMatrix.png}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmu Dijkstry na macierzy sąsiedztwa}
+            \end{figure}
+
+            \begin{figure}[H]
+                \centering
+                \includegraphics[scale = 0.85]{Wykresy/dijkstraList.png}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmu Dijkstry na liście sąsiedztwa}
             \end{figure}
 
             \begin{figure}[H]
                 \centering
                 \includegraphics[scale = 0.85]{Wykresy/gsp25.png}
-                \caption{Wykres czasu od ilości wierzchołków dla algorytmów wyznaczania najkrótszej ścieżki i gęstości równej 25\%}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmów wyznaczania najkrótszej ścieżki i gęstości równej 25\%}
             \end{figure}
 
             \begin{figure}[H]
                 \centering
                 \includegraphics[scale = 0.85]{Wykresy/gsp50.png}
-                \caption{Wykres czasu od ilości wierzchołków dla algorytmów wyznaczania najkrótszej ścieżki i gęstości równej 50\%}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmów wyznaczania najkrótszej ścieżki i gęstości równej 50\%}
             \end{figure}
 
             \begin{figure}[H]
                 \centering
                 \includegraphics[scale = 0.85]{Wykresy/gsp75.png}
-                \caption{Wykres czasu od ilości wierzchołków dla algorytmów wyznaczania najkrótszej ścieżki i gęstości równej 75\%}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmów wyznaczania najkrótszej ścieżki i gęstości równej 75\%}
             \end{figure}
 
             \begin{figure}[H]
                 \centering
                 \includegraphics[scale = 0.85]{Wykresy/gsp99.png}
-                \caption{Wykres czasu od ilości wierzchołków dla algorytmów wyznaczania najkrótszej ścieżki i gęstości równej 99\%}
+                \caption{Wykres czasu od liczby wierzchołków dla algorytmów wyznaczania najkrótszej ścieżki i gęstości równej 99\%}
             \end{figure}
 
 \section{Wnioski}
@@ -343,15 +341,14 @@
         Algorytm Prima i Kruskala służą do znajdowania minimalnego drzewa rozpinającego w grafie. 
         Czas wykonania obu algorytmów wzrasta wraz z liczbą wierzchołków i gęstością grafu.
 
-        Algorytm Prima polega na wyborze kolejnych krawędzi o najmniejszej wadze, które nie tworzą cyklu, aż do utworzenia drzewa rozpinającego. 
-        Ten algorytm działa efektywniej, gdy graf jest reprezentowany w postaci listy sąsiedztwa, gdzie dla każdego wierzchołka przechowywana jest lista sąsiadujących z nim krawędzi.
+        Algorytm Prima polega na wyborze krawędzi o najmniejszej wadze, które nie tworzą cyklu, 
+        a następnie dołączaniu ich do drzewa rozpinającego, aż wszystkie wierzchołki zostaną połączone.
+        Testy wykazały, że sposób reprezentacji grafu nie wpływa na efektywność algorytmu. Algorytm Prima osiąga lepsze czasy niż algorytm Kruskala zaimplementowany na 
+        liście, ale gorsze od jego implementacji macierzowej.
 
         Algorytm Kruskala natomiast polega na sortowaniu krawędzi według wagi i stopniowym dodawaniu ich do drzewa rozpinającego, jeżeli nie tworzą cyklu. 
-        Ten algorytm działa efektywniej, gdy graf jest reprezentowany w postaci macierzy sąsiedztwa, 
-        gdzie dla każdej pary wierzchołków przechowywana jest informacja o istnieniu krawędzi między nimi.
-
-        Dla dużych gęstości grafów złożoność czasowa obu algorytmów przypomina złożoność wykładniczą, 
-        co oznacza, że czas wykonania znacznie rośnie wraz z liczbą wierzchołków.
+        Bazując na pomiarach, ten algorytm działa efektywniej, gdy graf jest reprezentowany w postaci macierzy sąsiedztwa.
+        Czas wykonania algorytmu korzystającego z listy sąsiedztwa znacząco rośnie wraz ze wzrostem gęstości grafu.
 
         Doświadczalnie otrzymane złożoności czasowe algorytmów pokrywają się z tymi teoretycznymi.
 
@@ -360,11 +357,9 @@
         Algorytmy Dijkstry i Bellmana-Forda służą do znajdowania najkrótszej ścieżki między dwoma wierzchołkami w grafie. 
         Podobnie jak w przypadku minimalnego drzewa rozpinającego, czas wykonania obu algorytmów wzrasta z liczbą wierzchołków i gęstością grafu.
 
-        Algorytm Dijkstry polega na stopniowym wyborze wierzchołków, dla których obliczane są koszty dotarcia do nich. 
-        Algorytm ten działa efektywnie, gdy graf jest reprezentowany w postaci listy sąsiedztwa.
-
-        Algorytm Bellmana-Forda natomiast korzysta z relaksacji krawędzi, czyli aktualizacji kosztów dotarcia do wierzchołków w każdej iteracji. 
-        Ten algorytm działa efektywnie, gdy graf jest reprezentowany w postaci macierzy sąsiedztwa.
+        Implementacje algorytmów znajdowania najkrótszej ścieżki, które wykorzystują listę sąsiedztwa, wykazują mocną zależność między czasem wykonania algorytmu
+        a gęstością grafu. Z kolei implementacje korzystające z macierzy sąsiedztwa osiągają względnie podobne czasy niezależnie od gęstości grafu. Jest to 
+        prawdopodobnie spowodowane tym, że w macierzy sąsiedztwa zawsze sprawdzamy $($ ilość wierzchołków $)^2$ pozycji niezależnie od tego, czy dane połączenie istnieje, czy nie.
 
         Czas wykonania algorytmu Bellmana-Forda jest znacząco większy niż algorytmu Dijkstry, a dodatkowo rośnie w sposób wykładniczy wraz z liczbą wierzchołków. 
         Dla niższych gęstości grafów, algorytm Bellmana-Forda działa efektywniej na liście sąsiedztwa, natomiast wraz ze wzrostem gęstości, 

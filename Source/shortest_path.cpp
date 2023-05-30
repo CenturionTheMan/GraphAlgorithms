@@ -33,6 +33,14 @@ int* GSP::Dijkstra(AdjacencyMatrix& matrix)
             if(weight == matrix.WEIGHT_INFINITY)
                 continue;
             
+            if(weight < 0)
+            {
+                delete node;
+                delete[] nodes;
+                delete[] prev;
+                return NULL;
+            }
+
             int curWeight = nodes[i]->key;
             if(weight + node->key < curWeight)
             {
@@ -79,6 +87,14 @@ int* GSP::Dijkstra(AdjacencyList& list)
         {
             int curWeight = nodes[current->vertex]->key;
 
+            if(current->weight < 0)
+            {
+                delete node;
+                delete[] nodes;
+                delete[] prev;
+                return NULL;
+            }
+
             if(current->weight + node->key < curWeight)
             {
                 heap.EditKey(nodes[current->vertex], current->weight + node->key);
@@ -107,7 +123,7 @@ int* GSP::BellmanFord(AdjacencyMatrix& matrix)
     }
     costs[matrix.GetBeginVertex()] = 0;
     
-    for (int mainCounter = 0; mainCounter < vertexAmount - 1; mainCounter++)
+    for (int mainCounter = 0; mainCounter < vertexAmount; mainCounter++)
     {
         bool hasChanged = false;
 
@@ -135,24 +151,9 @@ int* GSP::BellmanFord(AdjacencyMatrix& matrix)
         } 
     }
     
-    for (int cur = 0; cur < vertexAmount; cur++)
-    {
-        for (int neigh = 0; neigh < vertexAmount; neigh++)
-        {
-            int weight = matrix.GetWeight(cur, neigh);
-            if(weight == matrix.WEIGHT_INFINITY)
-                continue;
-            
-            if(costs[neigh] > costs[cur] + weight)
-            {
-                delete[] costs;
-                delete[] prev;
-                return NULL;
-            }
-        } 
-    }
     delete[] costs;
-    return prev;
+    delete prev;
+    return NULL;
 }
 
 int* GSP::BellmanFord(AdjacencyList& list)
@@ -168,7 +169,7 @@ int* GSP::BellmanFord(AdjacencyList& list)
     }
     costs[list.GetBeginVertex()] = 0;
     
-    for (int mainCounter = 0; mainCounter < vertexAmount - 1; mainCounter++)
+    for (int mainCounter = 0; mainCounter < vertexAmount; mainCounter++)
     {
         bool hasChanged = false;
 
@@ -196,21 +197,10 @@ int* GSP::BellmanFord(AdjacencyList& list)
         } 
     }
     
-    for (int cur = 0; cur < vertexAmount; cur++)
-    {
-        for (Connection* neigh = list.GetHeadOfVertexConnections(cur); neigh != NULL; neigh = neigh->nextConnection)
-        {
-            int weight =neigh->weight;
-            if(costs[neigh->vertex] > costs[cur] + weight)
-            {
-                delete[] costs;
-                delete[] prev;
-                return NULL;
-            }     
-        }
-    }
+    
     delete[] costs;
-    return prev;
+    delete prev;
+    return NULL;
 }
 
 

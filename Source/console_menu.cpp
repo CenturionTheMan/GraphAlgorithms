@@ -1,53 +1,5 @@
 #include "Headers/console_menu.h"
 
-
-
-bool MenuConsole::TryParseToBool(std::string str, bool& val)
-{
-    if (str.find("Y") != std::string::npos) {
-        val = true;
-        return true;
-    }
-    if (str.find("N") != std::string::npos) {
-        val = false;
-        return true;
-    }
-    if (str.find("y") != std::string::npos) {
-        val = true;
-        return true;
-    }
-    if (str.find("n") != std::string::npos) {
-        val = false;
-        return true;
-    }
-    if (str.find("true") != std::string::npos) {
-        val = true;
-        return true;
-    }
-    if (str.find("false") != std::string::npos) {
-        val = false;
-        return true;
-    }
-    if (str.find("t") != std::string::npos) {
-        val = true;
-        return true;
-    }
-    if (str.find("f") != std::string::npos) {
-        val = false;
-        return true;
-    }
-    if (str.find("T") != std::string::npos) {
-        val = true;
-        return true;
-    }
-    if (str.find("F") != std::string::npos) {
-        val = false;
-        return true;
-    }
-
-    return false;
-}
-
 bool MenuConsole::TryParseToInt(std::string str, int& val)
 {
     try
@@ -88,28 +40,21 @@ MenuConsole::MainMenuOptions MenuConsole::DisplayMainMenu()
     return static_cast<MainMenuOptions>(input);
 }
 
-void MenuConsole::HandleInput(MenuConsole::MainMenuOptions input, AdjacencyMatrix& matrix, AdjacencyList& list)
+void MenuConsole::HandleInput(MainMenuOptions input, AdjacencyMatrix& matrixNotDirect, AdjacencyMatrix& matrixDirect, AdjacencyList& listNotDirect, AdjacencyList& listDirect)
     {
         switch (input)
         {
             case MenuConsole::MainMenuOptions::LOAD_FROM_FILE:
             {
                 std::string path = "";
-                std::string isDirectedStr = "";
                 bool isDirected = false;
 
                 std::cout << "Path for file: ";
                 std::cin >> path;
 
-                std::cout << "Is graph directed? [Y/N]: ";
-                std::cin >> isDirectedStr;
 
-                if(!TryParseToBool(isDirectedStr, isDirected))
-                {
-                    std::cout <<"Can not parse given input to bool, graph will be set as directed\n";
-                }
 
-                if(matrix.LoadDataFromFile(path, !isDirected))
+                if(matrixNotDirect.LoadDataFromFile(path, true) && matrixDirect.LoadDataFromFile(path, false))
                 {
                     std::cout << "Data from file successfully loaded into adjacency matrix\n";
                 }
@@ -118,7 +63,7 @@ void MenuConsole::HandleInput(MenuConsole::MainMenuOptions input, AdjacencyMatri
                     std::cout << "ERROR - Something went wrong when loading data from file to adjacency matrix!\n";
                 }
 
-                if(list.LoadDataFromFile(path, !isDirected))
+                if(listNotDirect.LoadDataFromFile(path, true) && listDirect.LoadDataFromFile(path, false))
                 {
                     std::cout << "Data from file successfully loaded into adjacency list\n";
                 }
@@ -131,18 +76,22 @@ void MenuConsole::HandleInput(MenuConsole::MainMenuOptions input, AdjacencyMatri
             }
             case MenuConsole::MainMenuOptions::SHOW_MATRIX:
             {
-                std::cout << "Adjacency matrix:\n" << matrix.ToString();
+                std::cout << "Adjacency matrix (direct):\n" << matrixDirect.ToString();
+                std::cout <<std::endl;
+                std::cout << "Adjacency matrix (not direct):\n" << matrixNotDirect.ToString();
                 break;
             }
             case MenuConsole::MainMenuOptions::SHOW_LIST:
             {
-                std::cout << "Adjacency list:\n" << list.ToString();
+                std::cout << "Adjacency list (direct):\n" << listDirect.ToString();
+                std::cout <<std::endl;
+                std::cout << "Adjacency list (not direct):\n" << listNotDirect.ToString();
                 break;
             }
             case MenuConsole::MainMenuOptions::DO_KRUSKAL:
             {
-                AdjacencyMatrix kruskalMatRes = MST::KruskalAlgorithm(matrix);
-                AdjacencyList kruskalListRes = MST::KruskalAlgorithm(list);
+                AdjacencyMatrix kruskalMatRes = MST::KruskalAlgorithm(matrixNotDirect);
+                AdjacencyList kruskalListRes = MST::KruskalAlgorithm(listNotDirect);
 
                 std::cout<< "Kruskal algorithm (matrix):\n" << MST::ToString(kruskalMatRes);
                 std::cout <<std::endl;
@@ -152,8 +101,8 @@ void MenuConsole::HandleInput(MenuConsole::MainMenuOptions input, AdjacencyMatri
             }
             case MenuConsole::MainMenuOptions::DO_PRIMA:
             {
-                AdjacencyMatrix primaMatRes = MST::PrimaAlgorithm(matrix);
-                AdjacencyList primaListRes = MST::PrimaAlgorithm(list);
+                AdjacencyMatrix primaMatRes = MST::PrimaAlgorithm(matrixNotDirect);
+                AdjacencyList primaListRes = MST::PrimaAlgorithm(listNotDirect);
 
                 std::cout<< "Prima algorithm (matrix):\n" << MST::ToString(primaMatRes);
                 std::cout <<std::endl;
@@ -162,22 +111,36 @@ void MenuConsole::HandleInput(MenuConsole::MainMenuOptions input, AdjacencyMatri
             }
             case MenuConsole::MainMenuOptions::DO_DIJKSTRA:
             {
-                int* resMatArr = GSP::Dijkstra(matrix);
-                int* resListArr = GSP::Dijkstra(list);
-                std::cout << "Dijkstra algorithm (matrix):\n" << GSP::ToString(matrix, resMatArr);
+                int* resMatArr = GSP::Dijkstra(matrixDirect);
+                int* resListArr = GSP::Dijkstra(listDirect);
+                if(resMatArr != NULL)
+                {
+                    std::cout << "Dijkstra algorithm (matrix):\n" << GSP::ToString(matrixDirect, resMatArr);
+                    delete[] resMatArr;
+                }
+                else
+                {
+                    std::cout << "Dijkstra algorithm (matrix):\nNegative edge weight was found in Dijkstra algorithm!\n";
+                }
                 std::cout <<std::endl;
-                std::cout << "Dijkstra algorithm (list):\n" << GSP::ToString(list, resListArr);
-                delete[] resMatArr;
-                delete[] resListArr;
+                if(resListArr != NULL)
+                {
+                    std::cout << "Dijkstra algorithm (list):\n" << GSP::ToString(listDirect, resListArr);
+                    delete[] resListArr;
+                }
+                else
+                {
+                    std::cout << "Dijkstra algorithm (list):\nNegative edge weight was found in Dijkstra algorithm!\n";
+                }
                 break;
             }
             case MenuConsole::MainMenuOptions::DO_BELLMAN_FORD:
             {
-                int* resMatArr = GSP::BellmanFord(matrix);
-                int* resListArr = GSP::BellmanFord(list);
+                int* resMatArr = GSP::BellmanFord(matrixDirect);
+                int* resListArr = GSP::BellmanFord(listDirect);
                 if(resMatArr != NULL)
                 {
-                    std::cout << "Bellman-Ford algorithm (matrix):\n" << GSP::ToString(matrix, resMatArr);
+                    std::cout << "Bellman-Ford algorithm (matrix):\n" << GSP::ToString(matrixDirect, resMatArr);
                     delete[] resMatArr;
                 }
                 else
@@ -187,7 +150,7 @@ void MenuConsole::HandleInput(MenuConsole::MainMenuOptions input, AdjacencyMatri
                 std::cout <<std::endl;
                 if(resListArr != NULL)
                 {
-                    std::cout << "Bellman-Ford algorithm (list):\n" << GSP::ToString(list, resListArr);
+                    std::cout << "Bellman-Ford algorithm (list):\n" << GSP::ToString(listDirect, resListArr);
                     delete[] resListArr;
                 }
                 else

@@ -84,7 +84,8 @@ public:
     /// @return pushed node
     HeapNode* Push(int key, int* data);
 
-    /// @brief Function will get node from root and repair heap
+    /// @brief Function will get node from root and repair heap.
+    /// @warning Memory of popped node has to be freed manually
     /// @return node from root
     HeapNode* PopHead();
 

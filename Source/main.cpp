@@ -6,7 +6,6 @@
 #include "Headers/tester.h"
 
 
-//TODO Sprawozdanie
 
 void PerformTests()
 {
@@ -32,40 +31,58 @@ void PerformTests()
 void InitMenu()
 {
     AdjacencyMatrix matrix(0);
+    AdjacencyMatrix matrixDirect(0);
     AdjacencyList list(0);
+    AdjacencyList listDirect(0);
     MenuConsole::MainMenuOptions input;
     do
     {
         input = MenuConsole::DisplayMainMenu();
-        MenuConsole::HandleInput(input, matrix, list);
+        MenuConsole::HandleInput(input, matrix, matrixDirect, list, listDirect);
     } while (input != MenuConsole::MainMenuOptions::EXIT);   
 }
 
-void TestDijkstra()
-{
-    AdjacencyMatrix matrix("Test_Graphs/Dijkstra1.txt");
-    AdjacencyList list("Test_Graphs/Dijkstra1.txt");
-    auto mR = GSP::Dijkstra(matrix);
-    auto lR = GSP::Dijkstra(list);
-    std::cout<<"MATRIX\n" << GSP::ToString(matrix, mR);
-    std::cout<<std::endl;
-    std::cout<<"LIST\n" << GSP::ToString(list, lR);
-    // Vertex          Distance from Source
-    // 0                  0
-    // 1                  4
-    // 2                  12
-    // 3                  19
-    // 4                  21
-    // 5                  11
-    // 6                  9
-    // 7                  8
-    // 8                  14
-}
 
+void Test()
+{
+    std::string filePath = "TestGraphs/prim.txt";
+    AdjacencyMatrix matrixDir(filePath, false);
+    AdjacencyMatrix matrix(filePath, true);
+    AdjacencyList listDir(filePath, false);
+    AdjacencyList list(filePath, true);
+
+    auto mBell = GSP::BellmanFord(matrixDir);
+    auto lBell = GSP::BellmanFord(listDir);
+
+    auto mDi = GSP::Dijkstra(matrixDir);
+    auto lDI = GSP::Dijkstra(listDir);
+
+    auto mPrima = MST::PrimaAlgorithm(matrix);
+    auto lPrima = MST::PrimaAlgorithm(list);
+
+    auto mKrus = MST::KruskalAlgorithm(matrix);
+    auto lKrus = MST::KruskalAlgorithm(list);
+
+    std::cout<<"MATRIX | Bellman\n" << GSP::ToString(matrix, mBell);
+    std::cout<<std::endl;
+    std::cout<<"LIST | Bellman\n" << GSP::ToString(list, lBell);
+    std::cout<<std::endl <<std::endl;
+    std::cout<<"MATRIX | Dijkstra\n" << GSP::ToString(matrix, mDi);
+    std::cout<<std::endl;
+    std::cout<<"LIST | Dijkstra\n" << GSP::ToString(list, lDI);
+    std::cout<<std::endl <<std::endl;
+    std::cout<<"MATRIX | Prima\n" << MST::ToString(mPrima);
+    std::cout<<std::endl;
+    std::cout<<"LIST | Prima\n" << MST::ToString(lPrima);
+    std::cout<<std::endl <<std::endl;
+    std::cout<<"MATRIX | Kruskal\n" << MST::ToString(mKrus);
+    std::cout<<std::endl;
+    std::cout<<"LIST | Kruskal\n" << MST::ToString(lKrus);
+}
 
 int main()
 {
-    TestDijkstra();
-    //InitMenu();
+    //Test();
+    InitMenu();
     //PerformTests();
 }

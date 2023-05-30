@@ -115,8 +115,10 @@ AdjacencyMatrix MST::PrimaAlgorithm(AdjacencyMatrix& matrix)
             heap.Push(weight,toAdd);
         }
         
-        if(heap.GetSize() == 0)
+        if(heap.GetSize() == 0){
+            delete[] visited;
             return result;
+        }
 
         while (heap.GetSize() > 0)
         {
@@ -163,8 +165,10 @@ AdjacencyList MST::PrimaAlgorithm(AdjacencyList& list)
             currentAdj = currentAdj->nextConnection;
         }
         
-        if(heap.GetSize() == 0)
+        if(heap.GetSize() == 0){
+            delete[] visited;
             return result;
+        }
 
         while (heap.GetSize() > 0)
         {
