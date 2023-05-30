@@ -143,6 +143,10 @@ void MenuConsole::HandleInput(MainMenuOptions input, AdjacencyMatrix& matrixNotD
                     std::cout << "Bellman-Ford algorithm (matrix):\n" << GSP::ToString(matrixDirect, resMatArr);
                     delete[] resMatArr;
                 }
+                else if(matrixDirect.GetVertexAmount() == 0)
+                {
+                    std::cout << "Bellman-Ford algorithm (matrix):\n" << GSP::ToString(matrixDirect, resMatArr);
+                }
                 else
                 {
                     std::cout << "Bellman-Ford algorithm (matrix):\n" << "ERROR - Graph contains a negative cycle\n";
@@ -152,6 +156,10 @@ void MenuConsole::HandleInput(MainMenuOptions input, AdjacencyMatrix& matrixNotD
                 {
                     std::cout << "Bellman-Ford algorithm (list):\n" << GSP::ToString(listDirect, resListArr);
                     delete[] resListArr;
+                }
+                else if(listDirect.GetVertexAmount() == 0)
+                {
+                    std::cout << "Bellman-Ford algorithm (list):\n" << GSP::ToString(listDirect, resListArr);
                 }
                 else
                 {
